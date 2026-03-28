@@ -375,15 +375,34 @@ h3 {
 @media (max-width: 560px) {
   .site-header {
     align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .wappen {
+    display: none;
+  }
+
+  .brand-wrap {
+    gap: 0;
   }
 
   .emergency {
-    margin-top: 0.15rem;
-    padding-inline: 0.85rem;
+    margin-top: 0.1rem;
+    border-radius: 14px;
+    padding: 0.45rem 0.8rem 0.42rem;
+    min-width: 96px;
+    align-items: center;
+    box-shadow: 0 14px 24px rgba(144, 15, 24, 0.28);
+  }
+
+  .emergency-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
   }
 
   .emergency-number {
-    font-size: 1.8rem;
+    font-size: 2.15rem;
+    line-height: 0.9;
   }
 
   .hero {
