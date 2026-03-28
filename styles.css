@@ -21,12 +21,20 @@ body {
   padding: 0;
 }
 
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   min-height: 100vh;
   font-family: 'Segoe UI', 'Trebuchet MS', Tahoma, Arial, sans-serif;
+  font-size: 1rem;
   color: var(--ink);
   background: var(--bg);
   line-height: 1.4;
+  overflow-x: hidden;
 }
 
 @keyframes rise-in {
@@ -54,7 +62,8 @@ body {
 .site-header,
 .social,
 .site-footer {
-  width: min(1120px, 92vw);
+  width: 92vw;
+  max-width: 1120px;
   margin-inline: auto;
 }
 
@@ -146,7 +155,8 @@ h1 {
 }
 
 .hero {
-  width: min(1120px, 92vw);
+  width: 92vw;
+  max-width: 1120px;
   margin: 0.2rem auto 2rem;
   position: relative;
   border-radius: calc(var(--radius) + 2px);
@@ -324,6 +334,12 @@ h3 {
   margin-top: 0.2rem;
 }
 
+.legal-separator {
+  margin: 0 0.35rem;
+  font-size: 0.72rem;
+  color: #7a7a7a;
+}
+
 .legal-link {
   font-size: 0.72rem;
   color: #626262;
@@ -394,7 +410,8 @@ h3 {
   .site-header,
   .hero,
   .social {
-    width: min(1240px, 90vw);
+    width: 90vw;
+    max-width: 1240px;
   }
 
   .hero {
