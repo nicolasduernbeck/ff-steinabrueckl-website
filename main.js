@@ -6,10 +6,10 @@
   }
 
   var slogans = [
+    'Im Einsatz für unser Zuhause.',
     'Allzeit bereit.',
-    'Wir gehen für Sie durchs Feuer.',
-    '365 Tage im Einsatz für Steinabrückl.',
-    'Schnell. Verlässlich. Für unsere Gemeinde.',
+    '365 Tage im Einsatz.',
+    'Schnell. Verlässlich. Für unsere Bevölkerung.',
   ];
 
   var phraseIndex = 0;
