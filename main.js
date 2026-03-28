@@ -8,8 +8,9 @@
   var slogans = [
     'Im Einsatz für unser Zuhause.',
     'Allzeit bereit.',
-    '365 Tage im Einsatz.',
-    'Schnell. Verlässlich. Für unsere Bevölkerung.',
+    '365 Tage im Jahr.',
+    'Schnell. Verlässlich.',
+    'Für unsere Bevölkerung.',
   ];
 
   var phraseIndex = 0;
