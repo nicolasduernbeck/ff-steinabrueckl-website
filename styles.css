@@ -95,7 +95,6 @@ body {
 .eyebrow {
   margin: 0;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--muted);
   font-size: 0.95rem;
 }
