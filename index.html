@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="de">
   <head>
+    <!-- Website der Freiwilligen Feuerwehr Steinabrueckl -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FF Feuerwehr Steinabrückl</title>
@@ -64,7 +65,12 @@
   </head>
   <body>
     <header class="site-header" aria-label="Kopfbereich">
-      <div class="brand-wrap">
+      <button
+        class="brand-wrap brand-home"
+        id="brand-home"
+        aria-label="Zur Startseite"
+        type="button"
+      >
         <img
           src="assets/images/wappen.gif"
           alt="Wappen der Feuerwehr Steinabrückl"
@@ -74,76 +80,166 @@
           <p class="eyebrow">Freiwillige Feuerwehr</p>
           <h1>Steinabrückl</h1>
         </div>
+      </button>
+      <div class="header-actions">
+        <a class="emergency" aria-label="Notruf 122 anrufen">
+          <svg
+            class="emergency-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"
+            />
+          </svg>
+          <span class="emergency-text">
+            <span class="emergency-label">Notruf</span>
+            <span class="emergency-number">122</span>
+          </span>
+        </a>
+        <button
+          class="hamburger-btn"
+          id="hamburger-btn"
+          aria-label="Menü öffnen"
+          aria-expanded="false"
+          aria-controls="menu-overlay"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
-      <a class="emergency" aria-label="Notruf 122 anrufen">
+    </header>
+
+    <!-- Menu Overlay -->
+    <div
+      class="menu-overlay"
+      id="menu-overlay"
+      role="dialog"
+      aria-labelledby="menu-close"
+    >
+      <button class="menu-close" id="menu-close" aria-label="Menü schließen">
         <svg
-          class="emergency-icon"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
           aria-hidden="true"
         >
           <path
-            d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"
+            d="M18.3 5.7c-.4-.4-1-.4-1.4 0L12 10.6 7.1 5.7c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4L10.6 12l-4.9 4.9c-.4.4-.4 1 0 1.4.2.2.5.3.7.3.2 0 .5-.1.7-.3L12 13.4l4.9 4.9c.2.2.5.3.7.3.2 0 .5-.1.7-.3.4-.4.4-1 0-1.4L13.4 12l4.9-4.9c.4-.4.4-1 0-1.4z"
           />
         </svg>
-        <span class="emergency-text">
-          <span class="emergency-label">Notruf</span>
-          <span class="emergency-number">122</span>
-        </span>
-      </a>
-    </header>
+      </button>
+      <nav class="menu-nav">
+        <a class="menu-link" href="#" data-page="home" role="menuitem"
+          >Startseite</a
+        >
+        <a class="menu-link" href="#" data-page="team" role="menuitem"
+          >Mannschaft</a
+        >
+        <a class="menu-link" href="#" data-page="fleet" role="menuitem"
+          >Fuhrpark</a
+        >
+      </nav>
+      <div class="menu-meta">
+        <a class="menu-legal-link" href="impressum.html">Impressum</a>
+      </div>
+    </div>
 
     <main>
-      <section class="hero" aria-label="Hauptbereich">
-        <div class="hero-overlay"></div>
-        <img
-          src="assets/images/header.jpg"
-          alt="Einsatzbild der Feuerwehr Steinabrückl"
-          class="hero-image"
-        />
-        <div class="hero-content">
-          <p class="hero-kicker">24/7 - 365 Tage im Jahr</p>
-          <h2>
-            <span id="typing-text" class="typing-text" aria-live="polite"
-              >Wir gehen für Sie durchs Feuer.</span
-            ><span class="typing-caret" aria-hidden="true"></span>
-          </h2>
-          <p class="hero-text">
-            Aktuelles, Einblicke und Informationen finden Sie direkt auf
-            Facebook und Instagram.
-          </p>
-        </div>
-      </section>
+      <!-- Page: Home (Startseite) -->
+      <div
+        id="page-home"
+        class="page-content"
+        role="region"
+        aria-labelledby="home-title"
+      >
+        <section class="hero" aria-label="Hauptbereich">
+          <div class="hero-overlay"></div>
+          <img
+            src="assets/images/header.jpg"
+            alt="Einsatzbild der Feuerwehr Steinabrückl"
+            class="hero-image"
+          />
+          <div class="hero-content">
+            <p class="hero-kicker">24/7 - 365 Tage im Jahr</p>
+            <h2 id="home-title">
+              <span id="typing-text" class="typing-text" aria-live="polite"
+                >Wir gehen für Sie durchs Feuer.</span
+              ><span class="typing-caret" aria-hidden="true"></span>
+            </h2>
+            <p class="hero-text">
+              Aktuelles, Einblicke und Informationen finden Sie direkt auf
+              Facebook und Instagram.
+            </p>
+          </div>
+        </section>
 
-      <section class="social" aria-label="Social Media">
-        <h3>Bleiben Sie am Laufenden</h3>
-        <p>Neuigkeiten, Fotos und Updates veröffentlichen wir laufend auf:</p>
+        <section class="social" aria-label="Social Media">
+          <h3>Bleiben Sie am Laufenden</h3>
+          <p>Neuigkeiten, Fotos und Updates veröffentlichen wir laufend auf:</p>
 
-        <div class="social-grid">
-          <a
-            class="social-card facebook"
-            href="https://www.facebook.com/feuerwehr.steinabrueckl"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook Seite der Feuerwehr Steinabrückl"
-          >
-            <span class="network">Facebook</span>
-            <span class="cta">Folge uns ...</span>
-          </a>
+          <div class="social-grid">
+            <a
+              class="social-card facebook"
+              href="https://www.facebook.com/feuerwehr.steinabrueckl"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook Seite der Feuerwehr Steinabrückl"
+            >
+              <span class="network">Facebook</span>
+              <span class="cta">Folge uns ...</span>
+            </a>
 
-          <a
-            class="social-card instagram"
-            href="https://www.instagram.com/feuerwehr_steinabrueckl/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram Seite der Feuerwehr Steinabrückl"
-          >
-            <span class="network">Instagram</span>
-            <span class="cta">Folge uns ...</span>
-          </a>
-        </div>
-      </section>
+            <a
+              class="social-card instagram"
+              href="https://www.instagram.com/feuerwehr_steinabrueckl/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram Seite der Feuerwehr Steinabrückl"
+            >
+              <span class="network">Instagram</span>
+              <span class="cta">Folge uns ...</span>
+            </a>
+          </div>
+        </section>
+      </div>
+
+      <!-- Page: Team (Mannschaft) -->
+      <div
+        id="page-team"
+        class="page-content hidden"
+        role="region"
+        aria-labelledby="team-title"
+      >
+        <section class="page-section">
+          <h2 id="team-title">Mannschaft</h2>
+          <div class="team-photo-container">
+            <img
+              src="assets/images/mannschaft.jpg"
+              alt="Mannschaftsfoto der Feuerwehr Steinabrückl"
+              class="team-photo"
+            />
+          </div>
+        </section>
+      </div>
+
+      <!-- Page: Fleet (Fuhrpark) -->
+      <div
+        id="page-fleet"
+        class="page-content hidden"
+        role="region"
+        aria-labelledby="fleet-title"
+      >
+        <section class="page-section">
+          <h2 id="fleet-title">Fuhrpark</h2>
+          <div id="vehicle-grid" class="vehicle-grid">
+            <!-- Vehicles will be rendered here by JavaScript -->
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer class="site-footer">
