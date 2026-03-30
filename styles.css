@@ -134,10 +134,10 @@ body {
   width: 58px;
   height: 58px;
   object-fit: contain;
-  border-radius: 50%;
-  background: var(--white);
+  border-radius: 8px;
+  background: transparent;
   padding: 4px;
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
+  box-shadow: none;
 }
 
 .eyebrow {

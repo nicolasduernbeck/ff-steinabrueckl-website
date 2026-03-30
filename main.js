@@ -441,7 +441,7 @@
       specsGrid.className = 'modal-specs-grid';
 
       var specs = [
-        { label: 'Fahrgestell', value: details.motor },
+        { label: 'Motor / Antrieb', value: details.motor },
         { label: 'Aufbau', value: details.aufbau },
         { label: 'Baujahr', value: details.baujahr },
         { label: 'Besatzung', value: details.besatzung },
