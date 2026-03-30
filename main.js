@@ -1,51 +1,109 @@
+/*
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║          Freiwillige Feuerwehr Steinabrückl               ║
+║                  Website – Notruf 122                     ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+*/
+
 // Website der Freiwilligen Feuerwehr Steinabrueckl
 
 (function () {
-  // Fuhrpark-Daten: pro Fahrzeug können beliebige Detail-Felder eingetragen werden.
+  // Fuhrpark-Daten
   var VEHICLES = [
     {
       id: 1,
       name: 'Rüstlöschfahrzeug',
-      shortName: 'RLFA 2000',
-      image: 'assets/images/fuhrpark/RLFA2000.png',
-      details: [
-        { label: 'Typ', value: 'Rüstlöschfahrzeug' },
-        { label: 'Wasser', value: '2400 L' },
-      ],
+      shortName: 'RLFA 2400',
+      image: 'assets/images/fuhrpark/RLFA2400.png',
+      fullDetails: {
+        motor: 'Steyr MAN LE 18.280 mit 279 PS',
+        aufbau: 'Rosenbauer',
+        baujahr: '2006',
+        besatzung: '1:8 (9 Personen)',
+        beladung: [
+          'Branddienstausrüstung inkl. 3 Atemschutzgeräte',
+          'Ausrüstung für technische Einsätze inkl. hydraulischen Rettungssatz',
+          'Schadstoffausrüstung',
+          'Hochleistungslüfter (elektrisch betrieben)',
+          'Wärmebildkamera',
+          'Seilwinde',
+          '14 kVA tragbarer Stromerzeuger',
+        ],
+      },
     },
     {
       id: 2,
-      name: 'Hilfeleistungsfahrzeug',
-      shortName: 'HLFA 1 VF',
-      image: 'assets/images/fuhrpark/HLFA1-VF.png',
-      details: [
-        { label: 'Typ', value: 'Hilfeleistungsfahrzeug' },
-        { label: 'Beladung', value: '' },
-      ],
-    },
-    {
-      id: 3,
       name: 'Kleinlöschfahrzeug',
       shortName: 'KLF',
       image: 'assets/images/fuhrpark/KLF.png',
-      details: [{ label: 'Typ', value: 'Kleinlöschfahrzeug' }],
+      fullDetails: {
+        motor: 'Mercedes Sprinter 314/35 mit 143 PS',
+        aufbau: 'Rosenbauer',
+        baujahr: '1996',
+        besatzung: '1:8 (9 Personen)',
+        beladung: [
+          'Branddienstausrüstung inkl. 3 Atemschutzgeräte',
+          'Tragkraftspritze',
+          'Rosenbauer Fox mit 1.200 Liter Leistung',
+        ],
+      },
+    },
+    {
+      id: 3,
+      name: 'Hilfeleistungsfahrzeug',
+      shortName: 'HLFA 1-VF',
+      image: 'assets/images/fuhrpark/HLFA1-VF.png',
+      fullDetails: {
+        motor: 'Mercedes Sprinter 519 CDI 4x4 mit 191 PS',
+        aufbau: 'Rosenbauer',
+        baujahr: '2022',
+        besatzung: '1:5 (6 Personen)',
+        beladung: [
+          'Wechselbare Rollcontainer:',
+          '  • Saugstelle',
+          '  • Löschangriff',
+          '  • Strom',
+          '  • Schlauchleitung',
+          '  • Technischer Einsatz',
+          '  • Auspumparbeiten',
+          '  • Belüftung',
+          '  • Tankstelle',
+          '  • Allzweck',
+        ],
+      },
     },
     {
       id: 4,
       name: 'Mannschaftstransportfahrzeug',
       shortName: 'MTFA',
       image: 'assets/images/fuhrpark/MTFA.png',
-      details: [
-        { label: 'Typ', value: 'Mannschaftstransportfahrzeug' },
-        { label: 'Einsatz', value: 'Transport' },
-      ],
+      fullDetails: {
+        motor: 'Volkswagen T6 4Motion mit 150 PS',
+        aufbau: 'Volkswagen',
+        baujahr: '2018',
+        besatzung: '1:8 (9 Personen)',
+        beladung: ['Pflichtbeladung', 'Verkehrsleiteinrichtung'],
+      },
     },
     {
       id: 5,
-      name: 'Kommandofahrzeug',
+      name: 'Kommandantenfahrzeug',
       shortName: 'KDTF',
       image: 'assets/images/fuhrpark/KDTF.png',
-      details: [{ label: 'Typ', value: 'Kommandofahrzeug' }],
+      fullDetails: {
+        motor: 'Ford Kuga Titanium 4WD mit 150 PS',
+        aufbau: 'Eigenbau',
+        baujahr: '2015, Umbau 2021',
+        besatzung: '1:4 (5 Personen)',
+        beladung: [
+          'Pflichtbeladung',
+          'Verkehrsleiteinrichtung',
+          'Atemschutzgerät',
+          'Führungsunterlagen',
+        ],
+      },
     },
   ];
 
@@ -61,6 +119,8 @@
   var state = {
     menuOpen: false,
     currentPage: 'home',
+    vehicleModalOpen: false,
+    selectedVehicleId: null,
   };
 
   function getElement(id) {
@@ -135,34 +195,19 @@
     }
   }
 
-  function createVehicleSpec(labelText, valueText) {
-    var specItem = document.createElement('div');
-    specItem.className = 'vehicle-spec';
-
-    var label = document.createElement('span');
-    label.className = 'vehicle-spec-label';
-    label.textContent = labelText;
-
-    var value = document.createElement('span');
-    value.className = 'vehicle-spec-value';
-    value.textContent = valueText;
-
-    specItem.appendChild(label);
-    specItem.appendChild(value);
-
-    return specItem;
-  }
-
   function createVehicleCard(vehicle) {
-    var box = document.createElement('div');
+    var box = document.createElement('article');
     box.className = 'vehicle-box';
+    box.setAttribute('data-vehicle-id', vehicle.id);
+    box.setAttribute('data-vehicle-name', vehicle.name);
+    box.setAttribute('data-vehicle-type', vehicle.shortName);
 
     var imageWrap = document.createElement('div');
     imageWrap.className = 'vehicle-image-wrap';
 
     var image = document.createElement('img');
     image.src = vehicle.image;
-    image.alt = vehicle.name;
+    image.alt = vehicle.name + ' - Feuerwehr Steinabrückl';
     image.loading = 'lazy';
     image.decoding = 'async';
     image.addEventListener('error', function () {
@@ -190,27 +235,18 @@
       content.appendChild(shortName);
     }
 
-    var specs = document.createElement('div');
-    specs.className = 'vehicle-specs';
-    var hasDetails = false;
-
-    (vehicle.details || []).forEach(function (detail) {
-      if (!detail || !detail.label || !detail.value) {
-        return;
-      }
-
-      specs.appendChild(createVehicleSpec(detail.label, detail.value));
-      hasDetails = true;
+    var moreButton = document.createElement('button');
+    moreButton.className = 'vehicle-more-btn';
+    moreButton.textContent = 'Mehr Infos';
+    moreButton.setAttribute(
+      'aria-label',
+      'Mehr Informationen zu ' + vehicle.name,
+    );
+    moreButton.addEventListener('click', function (event) {
+      event.stopPropagation();
+      openVehicleModal(vehicle.id);
     });
-
-    if (!hasDetails) {
-      var empty = document.createElement('p');
-      empty.className = 'vehicle-empty';
-      empty.textContent = 'Details folgen';
-      content.appendChild(empty);
-    } else {
-      content.appendChild(specs);
-    }
+    content.appendChild(moreButton);
 
     box.appendChild(imageWrap);
     box.appendChild(content);
@@ -307,7 +343,7 @@
   }
 
   function bindMenuLinks() {
-    var menuLinks = document.querySelectorAll('.menu-link');
+    var menuLinks = document.querySelectorAll('.menu-link, .footer-link');
 
     menuLinks.forEach(function (link) {
       link.addEventListener('click', function (event) {
@@ -329,7 +365,171 @@
       if (event.key === 'Escape' && state.menuOpen) {
         closeMenu();
       }
+
+      if (event.key === 'Escape' && state.vehicleModalOpen) {
+        closeVehicleModal();
+      }
     });
+  }
+
+  function closeVehicleModal() {
+    var modal = getElement('vehicle-modal');
+    var content = getElement('vehicle-modal-content');
+
+    if (!modal) {
+      return;
+    }
+
+    state.vehicleModalOpen = false;
+    state.selectedVehicleId = null;
+
+    document.body.style.overflow = '';
+
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+
+    if (content) {
+      content.innerHTML = '';
+    }
+
+    setTimeout(function () {
+      modal.style.display = 'none';
+    }, 240);
+  }
+
+  function createVehicleDetailView(vehicle) {
+    var container = document.createElement('div');
+    container.className = 'modal-vehicle-content';
+
+    var img = document.createElement('img');
+    img.src = vehicle.image;
+    img.alt =
+      vehicle.name + ' (' + vehicle.shortName + ') - Feuerwehr Steinabrückl';
+    img.className = 'modal-vehicle-image';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    container.appendChild(img);
+
+    var header = document.createElement('div');
+    header.className = 'modal-vehicle-header';
+
+    var name = document.createElement('h2');
+    name.id = 'modal-vehicle-name';
+    name.textContent = vehicle.name;
+    header.appendChild(name);
+
+    if (vehicle.shortName) {
+      var shortName = document.createElement('p');
+      shortName.className = 'modal-vehicle-shortname';
+      shortName.textContent = vehicle.shortName;
+      header.appendChild(shortName);
+    }
+
+    container.appendChild(header);
+
+    if (vehicle.fullDetails) {
+      var details = vehicle.fullDetails;
+
+      var techSection = document.createElement('div');
+      techSection.className = 'modal-vehicle-section';
+
+      var techTitle = document.createElement('h3');
+      techTitle.textContent = 'Fahrzeugdaten';
+      techSection.appendChild(techTitle);
+
+      var specsGrid = document.createElement('div');
+      specsGrid.className = 'modal-specs-grid';
+
+      var specs = [
+        { label: 'Motor / Antrieb', value: details.motor },
+        { label: 'Aufbau', value: details.aufbau },
+        { label: 'Baujahr', value: details.baujahr },
+        { label: 'Besatzung', value: details.besatzung },
+      ];
+
+      specs.forEach(function (spec) {
+        var item = document.createElement('div');
+        item.className = 'modal-spec-item';
+
+        var label = document.createElement('span');
+        label.className = 'modal-spec-label';
+        label.textContent = spec.label;
+
+        var value = document.createElement('span');
+        value.className = 'modal-spec-value';
+        value.textContent = spec.value;
+
+        item.appendChild(label);
+        item.appendChild(value);
+        specsGrid.appendChild(item);
+      });
+
+      techSection.appendChild(specsGrid);
+      container.appendChild(techSection);
+    }
+
+    if (vehicle.fullDetails && vehicle.fullDetails.beladung) {
+      var equipmentSection = document.createElement('div');
+      equipmentSection.className = 'modal-vehicle-section';
+
+      var equipTitle = document.createElement('h3');
+      equipTitle.textContent = 'Beladung';
+      equipmentSection.appendChild(equipTitle);
+
+      var equipList = document.createElement('div');
+      equipList.className = 'modal-equipment-list';
+
+      vehicle.fullDetails.beladung.forEach(function (item) {
+        var listItem = document.createElement('div');
+
+        if (item.startsWith('  •')) {
+          listItem.className = 'modal-equipment-item';
+          listItem.textContent = item.replace('  • ', '');
+        } else if (item.endsWith(':')) {
+          listItem.className = 'modal-equipment-item subtitle';
+          listItem.textContent = item;
+        } else {
+          listItem.className = 'modal-equipment-item';
+          listItem.textContent = item;
+        }
+
+        equipList.appendChild(listItem);
+      });
+
+      equipmentSection.appendChild(equipList);
+      container.appendChild(equipmentSection);
+    }
+
+    return container;
+  }
+
+  function openVehicleModal(vehicleId) {
+    var vehicle = VEHICLES.find(function (v) {
+      return v.id === vehicleId;
+    });
+
+    if (!vehicle) {
+      return;
+    }
+
+    var modal = getElement('vehicle-modal');
+    var content = getElement('vehicle-modal-content');
+
+    if (!modal || !content) {
+      return;
+    }
+
+    state.vehicleModalOpen = true;
+    state.selectedVehicleId = vehicleId;
+
+    document.body.style.overflow = 'hidden';
+
+    content.innerHTML = '';
+    content.appendChild(createVehicleDetailView(vehicle));
+
+    modal.style.display = 'flex';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
   }
 
   function initNavigation() {
@@ -341,6 +541,30 @@
     bindMenuLinks();
     bindHashRouting();
     bindKeyboardShortcuts();
+  }
+
+  function initVehicleModal() {
+    bindClick('vehicle-modal-close', closeVehicleModal);
+
+    var modal = getElement('vehicle-modal');
+    var modalPanel = getElement('vehicle-modal-panel');
+
+    if (modal) {
+      modal.addEventListener('click', function (event) {
+        if (
+          event.target === modal ||
+          event.target.classList.contains('vehicle-modal-overlay')
+        ) {
+          closeVehicleModal();
+        }
+      });
+    }
+
+    if (modalPanel) {
+      modalPanel.addEventListener('click', function (event) {
+        event.stopPropagation();
+      });
+    }
   }
 
   function resetScrollPosition() {
@@ -356,6 +580,7 @@
     initTypingText();
     initNavigation();
     renderVehicles();
+    initVehicleModal();
     navigateTo(getPageFromHash() || state.currentPage, { updateHash: false });
 
     window.requestAnimationFrame(function () {

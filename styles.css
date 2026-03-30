@@ -1,3 +1,12 @@
+/*
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║          Freiwillige Feuerwehr Steinabrückl               ║
+║                  Website – Notruf 122                     ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+*/
+
 /* Website der Freiwilligen Feuerwehr Steinabrueckl */
 
 @font-face {
@@ -402,6 +411,29 @@ h3 {
 
 .legal-link-wrap {
   margin-top: 0.2rem;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-top: 0.6rem;
+}
+
+.footer-link {
+  font-size: 0.78rem;
+  color: #626262;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: #2f2f2f;
+  border-color: #2f2f2f;
 }
 
 .legal-link {
@@ -861,6 +893,8 @@ body.menu-open {
     transform 240ms ease-out,
     box-shadow 240ms ease-out;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .vehicle-box:hover {
@@ -907,6 +941,9 @@ body.menu-open {
 
 .vehicle-content {
   padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .vehicle-name {
@@ -930,33 +967,34 @@ body.menu-open {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.65rem;
+  margin-bottom: 1.5rem;
 }
 
-.vehicle-empty {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.vehicle-spec {
+.vehicle-more-btn {
+  margin-top: auto;
+  margin-bottom: 0;
+  padding: 0.6rem 1.2rem;
+  background: var(--fire-red);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
   font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.vehicle-spec-label {
-  display: block;
   font-weight: 600;
-  color: var(--fire-red);
-  font-size: 0.76rem;
-  letter-spacing: 0.03em;
-  margin-bottom: 0.2rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background 160ms ease-out,
+    transform 160ms ease-out;
+  font-family: var(--font-ui);
 }
 
-.vehicle-spec-value {
-  display: block;
-  color: var(--ink);
-  font-size: 0.92rem;
-  overflow-wrap: anywhere;
+.vehicle-more-btn:hover {
+  background: var(--fire-red-dark);
+  transform: translateY(-2px);
+}
+
+.vehicle-more-btn:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 560px) {
@@ -1072,5 +1110,281 @@ body.menu-open {
   .social-card {
     min-height: 50px;
     padding: 0.52rem 0.58rem 0.5rem;
+  }
+}
+
+/* ========== VEHICLE DETAILS MODAL ========== */
+
+.vehicle-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.vehicle-modal.open {
+  display: flex;
+  flex-direction: column;
+  animation: fade-in 240ms ease-out;
+}
+
+.vehicle-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  animation: fade-in 240ms ease-out;
+}
+
+.vehicle-modal-panel {
+  position: relative;
+  background: var(--bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  width: 100%;
+  max-width: 720px;
+  margin: auto;
+  padding: 2rem;
+  padding-top: 3.5rem;
+  animation: scale-in 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicle-modal-panel::-webkit-scrollbar {
+  width: 10px;
+}
+
+.vehicle-modal-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.vehicle-modal-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.vehicle-modal-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--muted);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    color 160ms ease-out,
+    background 160ms ease-out;
+  z-index: 10;
+}
+
+.vehicle-modal-close:hover,
+.vehicle-modal-close:focus {
+  color: var(--fire-red);
+  background: rgba(193, 18, 31, 0.1);
+  outline: none;
+}
+
+.vehicle-modal-close svg {
+  width: 24px;
+  height: 24px;
+}
+
+.vehicle-modal-content {
+  margin-top: 0;
+  color: var(--ink);
+}
+
+.modal-vehicle-image {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 2px);
+  margin-bottom: 1.8rem;
+  display: block;
+  background: linear-gradient(
+    135deg,
+    rgba(193, 18, 31, 0.15),
+    rgba(193, 18, 31, 0.05)
+  );
+}
+
+.modal-vehicle-header {
+  margin-bottom: 2rem;
+}
+
+#modal-vehicle-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4rem;
+  color: var(--ink);
+}
+
+.modal-vehicle-shortname {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.modal-vehicle-section {
+  margin-bottom: 2rem;
+}
+
+.modal-vehicle-section h3 {
+  font-family: var(--font-display);
+  font-size: clamp(0.92rem, 2vw, 1.1rem);
+  font-weight: 600;
+  margin: 0 0 0.8rem;
+  color: var(--fire-red);
+  letter-spacing: -0.01em;
+  border-bottom: 2px solid rgba(193, 18, 31, 0.2);
+  padding-bottom: 0.6rem;
+}
+
+.modal-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1.8rem;
+}
+
+.modal-spec-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-spec-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--fire-red);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+.modal-spec-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.modal-equipment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.modal-equipment-item {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.modal-equipment-item::before {
+  content: '▪';
+  flex-shrink: 0;
+  color: var(--fire-red);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.modal-equipment-item.subtitle {
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}
+
+.modal-equipment-item.subtitle::before {
+  content: '◆';
+  color: var(--fire-red);
+  opacity: 0.6;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .vehicle-modal {
+    padding: 0.75rem;
+  }
+
+  .vehicle-modal-panel {
+    max-width: 100%;
+    width: 100%;
+    margin: auto;
+    padding: 1.2rem;
+    padding-top: 3rem;
+    border-radius: calc(var(--radius) - 2px);
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .vehicle-modal-close {
+    width: 36px;
+    height: 36px;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  #modal-vehicle-name {
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+  }
+
+  .modal-specs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .modal-vehicle-section h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
   }
 }
