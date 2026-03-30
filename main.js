@@ -343,7 +343,7 @@
   }
 
   function bindMenuLinks() {
-    var menuLinks = document.querySelectorAll('.menu-link, .footer-link');
+    var menuLinks = document.querySelectorAll('[data-page]');
 
     menuLinks.forEach(function (link) {
       link.addEventListener('click', function (event) {
