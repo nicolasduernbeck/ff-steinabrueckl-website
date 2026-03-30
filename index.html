@@ -1,3 +1,12 @@
+<!--
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║          Freiwillige Feuerwehr Steinabrückl               ║
+║                  Website – Notruf 122                     ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+-->
+
 <!doctype html>
 <html lang="de">
   <head>
@@ -114,6 +123,20 @@
         ]
       }
     </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Fuhrpark - Freiwillige Feuerwehr Steinabrückl",
+        "url": "https://www.ff-steinabrueckl.at/#fleet",
+        "description": "Fuhrpark und Fahrzeuge der Freiwilligen Feuerwehr Steinabrückl. Fahrzeugtypen: Rüstlöschfahrzeug, Kleinlöschfahrzeug, Hilfeleistungsfahrzeug, Mannschaftstransportfahrzeug und Kommandantenfahrzeug.",
+        "inLanguage": "de-AT",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://www.ff-steinabrueckl.at/"
+        }
+      }
+    </script>
     <link
       rel="preload"
       href="assets/images/header.jpg"
@@ -150,7 +173,7 @@
         </div>
       </button>
       <div class="header-actions">
-        <a class="emergency" aria-label="Notruf 122 anrufen">
+        <div class="emergency" aria-label="Notruf 122">
           <svg
             class="emergency-icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +189,7 @@
             <span class="emergency-label">Notruf</span>
             <span class="emergency-number">122</span>
           </span>
-        </a>
+        </div>
         <button
           class="hamburger-btn"
           id="hamburger-btn"
@@ -322,12 +345,49 @@
       </div>
     </main>
 
+    <!-- Vehicle Details Modal -->
+    <div
+      id="vehicle-modal"
+      class="vehicle-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-vehicle-name"
+      aria-hidden="true"
+    >
+      <div class="vehicle-modal-overlay"></div>
+      <div class="vehicle-modal-panel">
+        <button
+          class="vehicle-modal-close"
+          id="vehicle-modal-close"
+          aria-label="Fenster schließen"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M18.3 5.7c-.4-.4-1-.4-1.4 0L12 10.6 7.1 5.7c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4L10.6 12l-4.9 4.9c-.4.4-.4 1 0 1.4.2.2.5.3.7.3.2 0 .5-.1.7-.3L12 13.4l4.9 4.9c.2.2.5.3.7.3.2 0 .5-.1.7-.3.4-.4.4-1 0-1.4L13.4 12l4.9-4.9c.4-.4.4-1 0-1.4z"
+            />
+          </svg>
+        </button>
+
+        <div class="vehicle-modal-content" id="vehicle-modal-content">
+          <!-- Vehicle details will be rendered here by JavaScript -->
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <p>Freiwillige Feuerwehr Steinabrückl</p>
       <p>Notruf 122</p>
-      <p class="legal-link-wrap">
-        <a class="legal-link" href="impressum.html">Impressum</a>
-      </p>
+      <nav class="footer-nav" aria-label="Footer Navigation">
+        <a class="footer-link" href="#home" data-page="home">Startseite</a>
+        <a class="footer-link" href="#team" data-page="team">Mannschaft</a>
+        <a class="footer-link" href="#fleet" data-page="fleet">Fuhrpark</a>
+        <a class="footer-link" href="impressum.html">Impressum</a>
+      </nav>
     </footer>
     <script src="main.js" defer></script>
   </body>
