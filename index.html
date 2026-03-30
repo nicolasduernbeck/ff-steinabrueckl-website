@@ -4,18 +4,31 @@
     <!-- Website der Freiwilligen Feuerwehr Steinabrueckl -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FF Feuerwehr Steinabrückl</title>
+    <title>
+      Freiwillige Feuerwehr Steinabrückl | Notruf 122 | Einsätze & Fuhrpark
+    </title>
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="theme-color" content="#c1121f" />
+    <meta name="author" content="Freiwillige Feuerwehr Steinabrückl" />
+    <meta name="language" content="de-AT" />
     <meta
       name="description"
-      content="Offizielle Website der Feuerwehr Steinabrückl. Notruf 122. Aktuelles und Einsatzeinblicke auf Facebook und Instagram."
+      content="Offizielle Website der Freiwilligen Feuerwehr Steinabrückl: Notruf 122, aktuelle Einsätze, Mannschaft, Fuhrpark sowie laufende Updates auf Facebook und Instagram."
+    />
+    <meta
+      name="keywords"
+      content="Feuerwehr Steinabrückl, Freiwillige Feuerwehr, Notruf 122, Einsätze, Fuhrpark, Mannschaft"
     />
     <link rel="canonical" href="https://www.ff-steinabrueckl.at/" />
     <link
       rel="alternate"
       hreflang="de-AT"
+      href="https://www.ff-steinabrueckl.at/"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
       href="https://www.ff-steinabrueckl.at/"
     />
     <meta property="og:title" content="Feuerwehr Steinabrückl" />
@@ -31,7 +44,11 @@
       property="og:image"
       content="https://www.ff-steinabrueckl.at/assets/images/header.jpg"
     />
+    <meta property="og:image:alt" content="Feuerwehr Steinabrückl im Einsatz" />
+    <meta property="og:image:width" content="1160" />
+    <meta property="og:image:height" content="480" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@feuerwehr_steinabrueckl" />
     <meta name="twitter:title" content="Feuerwehr Steinabrückl" />
     <meta
       name="twitter:description"
@@ -44,23 +61,72 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "FireStation",
-        "name": "Feuerwehr Steinabrückl",
-        "url": "https://www.ff-steinabrueckl.at/",
-        "image": "https://www.ff-steinabrueckl.at/assets/images/header.jpg",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Steinabrückl",
-          "addressCountry": "AT"
-        },
-        "sameAs": [
-          "https://www.facebook.com/feuerwehr.steinabrueckl",
-          "https://www.instagram.com/feuerwehr_steinabrueckl/"
-        ],
-        "areaServed": "Steinabrückl",
-        "inLanguage": "de-AT"
+        "@graph": [
+          {
+            "@type": "FireStation",
+            "@id": "https://www.ff-steinabrueckl.at/#firestation",
+            "name": "Freiwillige Feuerwehr Steinabrückl",
+            "url": "https://www.ff-steinabrueckl.at/",
+            "image": "https://www.ff-steinabrueckl.at/assets/images/header.jpg",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Wassergasse 122",
+              "postalCode": "2751",
+              "addressLocality": "Steinabrückl",
+              "addressCountry": "AT"
+            },
+            "sameAs": [
+              "https://www.facebook.com/feuerwehr.steinabrueckl",
+              "https://www.instagram.com/feuerwehr_steinabrueckl/"
+            ],
+            "areaServed": "Steinabrückl",
+            "inLanguage": "de-AT"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.ff-steinabrueckl.at/#website",
+            "url": "https://www.ff-steinabrueckl.at/",
+            "name": "Freiwillige Feuerwehr Steinabrückl",
+            "inLanguage": "de-AT",
+            "publisher": {
+              "@id": "https://www.ff-steinabrueckl.at/#firestation"
+            }
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://www.ff-steinabrueckl.at/#webpage",
+            "url": "https://www.ff-steinabrueckl.at/",
+            "name": "Freiwillige Feuerwehr Steinabrückl",
+            "isPartOf": {
+              "@id": "https://www.ff-steinabrueckl.at/#website"
+            },
+            "about": {
+              "@id": "https://www.ff-steinabrueckl.at/#firestation"
+            },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "url": "https://www.ff-steinabrueckl.at/assets/images/header.jpg",
+              "width": 1160,
+              "height": 480
+            },
+            "inLanguage": "de-AT"
+          }
+        ]
       }
     </script>
+    <link
+      rel="preload"
+      href="assets/images/header.jpg"
+      as="image"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/manrope-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -75,6 +141,8 @@
           src="assets/images/wappen.gif"
           alt="Wappen der Feuerwehr Steinabrückl"
           class="wappen"
+          width="66"
+          height="66"
         />
         <div>
           <p class="eyebrow">Freiwillige Feuerwehr</p>
@@ -118,6 +186,7 @@
       class="menu-overlay"
       id="menu-overlay"
       role="dialog"
+      aria-modal="true"
       aria-labelledby="menu-close"
     >
       <button class="menu-close" id="menu-close" aria-label="Menü schließen">
@@ -133,13 +202,13 @@
         </svg>
       </button>
       <nav class="menu-nav">
-        <a class="menu-link" href="#" data-page="home" role="menuitem"
+        <a class="menu-link" href="#home" data-page="home" role="menuitem"
           >Startseite</a
         >
-        <a class="menu-link" href="#" data-page="team" role="menuitem"
+        <a class="menu-link" href="#team" data-page="team" role="menuitem"
           >Mannschaft</a
         >
-        <a class="menu-link" href="#" data-page="fleet" role="menuitem"
+        <a class="menu-link" href="#fleet" data-page="fleet" role="menuitem"
           >Fuhrpark</a
         >
       </nav>
@@ -162,6 +231,10 @@
             src="assets/images/header.jpg"
             alt="Einsatzbild der Feuerwehr Steinabrückl"
             class="hero-image"
+            width="1160"
+            height="480"
+            fetchpriority="high"
+            decoding="async"
           />
           <div class="hero-content">
             <p class="hero-kicker">24/7 - 365 Tage im Jahr</p>
@@ -218,11 +291,18 @@
           <h2 id="team-title">Mannschaft</h2>
           <div class="team-photo-container">
             <img
-              src="assets/images/mannschaft.jpg"
+              src="assets/images/mannschaftsfoto.jpg"
               alt="Mannschaftsfoto der Feuerwehr Steinabrückl"
               class="team-photo"
+              width="1163"
+              height="693"
+              loading="lazy"
+              decoding="async"
             />
           </div>
+          <p class="team-claim">
+            Ehrenamtlich. Verlässlich. Für unsere Bevölkerung.
+          </p>
         </section>
       </div>
 
@@ -243,11 +323,12 @@
     </main>
 
     <footer class="site-footer">
-      <p>Freiwillige Feuerwehr Steinabrückl | Notruf 122</p>
+      <p>Freiwillige Feuerwehr Steinabrückl</p>
+      <p>Notruf 122</p>
       <p class="legal-link-wrap">
         <a class="legal-link" href="impressum.html">Impressum</a>
       </p>
     </footer>
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
   </body>
 </html>
