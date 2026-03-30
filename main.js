@@ -1,60 +1,51 @@
 // Website der Freiwilligen Feuerwehr Steinabrueckl
 
 (function () {
+  // Fuhrpark-Daten: pro Fahrzeug können beliebige Detail-Felder eingetragen werden.
   var VEHICLES = [
     {
       id: 1,
-      name: 'Löschfahrzeug LF 10',
-      year: 2018,
-      power: '250 PS',
-      water: '2500 L',
-      purpose: 'Brandbekämpfung',
-      image: 'assets/images/fahrzeuge/fahrzeug1.jpg',
+      name: 'Rüstlöschfahrzeug',
+      shortName: 'RLFA 2000',
+      image: 'assets/images/fuhrpark/RLFA2000.png',
+      details: [
+        { label: 'Typ', value: 'Rüstlöschfahrzeug' },
+        { label: 'Wasser', value: '2400 L' },
+      ],
     },
     {
       id: 2,
-      name: 'Drehleiter DL 30',
-      year: 2015,
-      power: '280 PS',
-      water: '1500 L',
-      purpose: 'Höhenrettung',
-      image: 'assets/images/fahrzeuge/fahrzeug2.jpg',
+      name: 'Hilfeleistungsfahrzeug',
+      shortName: 'HLFA 1 VF',
+      image: 'assets/images/fuhrpark/HLFA1-VF.png',
+      details: [
+        { label: 'Typ', value: 'Hilfeleistungsfahrzeug' },
+        { label: 'Beladung', value: '' },
+      ],
     },
     {
       id: 3,
-      name: 'Tanklöschfahrzeug TLF',
-      year: 2020,
-      power: '320 PS',
-      water: '4000 L',
-      purpose: 'Großflächenbrände',
-      image: 'assets/images/fahrzeuge/fahrzeug3.jpg',
+      name: 'Kleinlöschfahrzeug',
+      shortName: 'KLF',
+      image: 'assets/images/fuhrpark/KLF.png',
+      details: [{ label: 'Typ', value: 'Kleinlöschfahrzeug' }],
     },
     {
       id: 4,
-      name: 'Mannschaftstransport MTW',
-      year: 2019,
-      power: '190 PS',
-      water: '400 L',
-      purpose: 'Personentransport',
-      image: 'assets/images/fahrzeuge/fahrzeug4.jpg',
+      name: 'Mannschaftstransportfahrzeug',
+      shortName: 'MTFA',
+      image: 'assets/images/fuhrpark/MTFA.png',
+      details: [
+        { label: 'Typ', value: 'Mannschaftstransportfahrzeug' },
+        { label: 'Einsatz', value: 'Transport' },
+      ],
     },
     {
       id: 5,
-      name: 'Rüstwagen RW',
-      year: 2017,
-      power: '260 PS',
-      water: '800 L',
-      purpose: 'Technische Hilfe',
-      image: 'assets/images/fahrzeuge/fahrzeug5.jpg',
-    },
-    {
-      id: 6,
-      name: 'Einsatzleitwagen ELW',
-      year: 2021,
-      power: '210 PS',
-      water: '600 L',
-      purpose: 'Einsatzleitung',
-      image: 'assets/images/fahrzeuge/fahrzeug6.jpg',
+      name: 'Kommandofahrzeug',
+      shortName: 'KDTF',
+      image: 'assets/images/fuhrpark/KDTF.png',
+      details: [{ label: 'Typ', value: 'Kommandofahrzeug' }],
     },
   ];
 
@@ -103,8 +94,30 @@
     setMenuOpen(!state.menuOpen);
   }
 
-  function navigateTo(pageName) {
+  function getPageFromHash() {
+    var rawHash = (window.location.hash || '').replace('#', '').trim();
+    return PAGE_IDS.indexOf(rawHash) !== -1 ? rawHash : null;
+  }
+
+  function setHashForPage(pageName) {
+    var targetHash = '#' + pageName;
+
+    if (window.location.hash === targetHash) {
+      return;
+    }
+
+    if (pageName === 'home') {
+      window.history.replaceState(null, '', window.location.pathname);
+      return;
+    }
+
+    window.history.pushState(null, '', targetHash);
+  }
+
+  function navigateTo(pageName, options) {
     var targetPage = PAGE_IDS.indexOf(pageName) !== -1 ? pageName : 'home';
+    var routeOptions = options || {};
+    var shouldUpdateHash = routeOptions.updateHash !== false;
 
     closeMenu();
     getPages().forEach(function (page) {
@@ -115,6 +128,10 @@
     if (selectedPage) {
       selectedPage.classList.remove('hidden');
       state.currentPage = targetPage;
+
+      if (shouldUpdateHash) {
+        setHashForPage(targetPage);
+      }
     }
   }
 
@@ -146,6 +163,16 @@
     var image = document.createElement('img');
     image.src = vehicle.image;
     image.alt = vehicle.name;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.addEventListener('error', function () {
+      image.remove();
+
+      var fallback = document.createElement('span');
+      fallback.className = 'vehicle-image-fallback';
+      fallback.textContent = 'Kein Bild verfügbar';
+      imageWrap.appendChild(fallback);
+    });
     imageWrap.appendChild(image);
 
     var content = document.createElement('div');
@@ -156,14 +183,35 @@
     name.textContent = vehicle.name;
     content.appendChild(name);
 
+    if (vehicle.shortName) {
+      var shortName = document.createElement('p');
+      shortName.className = 'vehicle-short';
+      shortName.textContent = vehicle.shortName;
+      content.appendChild(shortName);
+    }
+
     var specs = document.createElement('div');
     specs.className = 'vehicle-specs';
-    specs.appendChild(createVehicleSpec('Baujahr', vehicle.year));
-    specs.appendChild(createVehicleSpec('Leistung', vehicle.power));
-    specs.appendChild(createVehicleSpec('Wasser', vehicle.water));
-    specs.appendChild(createVehicleSpec('Einsatzzweck', vehicle.purpose));
+    var hasDetails = false;
 
-    content.appendChild(specs);
+    (vehicle.details || []).forEach(function (detail) {
+      if (!detail || !detail.label || !detail.value) {
+        return;
+      }
+
+      specs.appendChild(createVehicleSpec(detail.label, detail.value));
+      hasDetails = true;
+    });
+
+    if (!hasDetails) {
+      var empty = document.createElement('p');
+      empty.className = 'vehicle-empty';
+      empty.textContent = 'Details folgen';
+      content.appendChild(empty);
+    } else {
+      content.appendChild(specs);
+    }
+
     box.appendChild(imageWrap);
     box.appendChild(content);
 
@@ -172,6 +220,7 @@
 
   function renderVehicles() {
     var grid = getElement('vehicle-grid');
+    var fragment = document.createDocumentFragment();
 
     if (!grid) {
       return;
@@ -179,8 +228,10 @@
 
     grid.innerHTML = '';
     VEHICLES.forEach(function (vehicle) {
-      grid.appendChild(createVehicleCard(vehicle));
+      fragment.appendChild(createVehicleCard(vehicle));
     });
+
+    grid.appendChild(fragment);
   }
 
   function initTypingText() {
@@ -266,6 +317,13 @@
     });
   }
 
+  function bindHashRouting() {
+    window.addEventListener('hashchange', function () {
+      var pageFromHash = getPageFromHash() || 'home';
+      navigateTo(pageFromHash, { updateHash: false });
+    });
+  }
+
   function bindKeyboardShortcuts() {
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && state.menuOpen) {
@@ -281,14 +339,28 @@
     bindClick('hamburger-btn', toggleMenu);
     bindClick('menu-close', closeMenu);
     bindMenuLinks();
+    bindHashRouting();
     bindKeyboardShortcuts();
   }
 
+  function resetScrollPosition() {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    window.scrollTo(0, 0);
+  }
+
   function init() {
+    resetScrollPosition();
     initTypingText();
     initNavigation();
     renderVehicles();
-    navigateTo(state.currentPage);
+    navigateTo(getPageFromHash() || state.currentPage, { updateHash: false });
+
+    window.requestAnimationFrame(function () {
+      window.scrollTo(0, 0);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', init);
